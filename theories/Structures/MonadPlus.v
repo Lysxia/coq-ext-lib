@@ -2,10 +2,10 @@ Require Import ExtLib.Structures.Monad.
 
 Set Implicit Arguments.
 
-Class MonadPlus (m : Type -> Type) : Type :=
+Polymorphic Class MonadPlus (m : Type -> Type) : Type :=
 { mplus : forall {A B:Type}, m A -> m B -> m (A + B)%type }.
 
-Definition mjoin {m : Type -> Type} {M : Monad m} {MP : MonadPlus m} {T} (a b : m T) : m T :=
+Definition mjoin {m : Type -> Type} {M : Monad m} {MP : MonadPlus m} {T : Type} (a b : m T) : m T :=
   bind (mplus a b) (fun x =>
     match x with
       | inl x | inr x => ret x
